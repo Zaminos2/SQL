@@ -1,0 +1,24 @@
+use hr;
+ SELECT `department_id`, MAX(
+	CASE
+		WHEN `salary` > 10000
+			THEN 1
+		ELSE 0
+        END 
+ )
+ AS has_high_salary
+ FROM `employees`
+ GROUP BY `department_id`; 
+ 
+  SELECT `department_id`, MIN(
+	CASE
+		WHEN `salary` <= 10000
+			THEN 0
+		ELSE 1
+        END 
+ )
+ AS has_high_salary
+ FROM `employees`
+ GROUP BY `department_id`; 
+ 
+ -- ОПЕРАТОРЫ MIN И MAX ПОМОГАЮТ НАЙТИ МИНИМАЛЬНОЕ И СООТВЕТСТВЕННО МАКСИМАЛЬНОЕ ЗНАЧЕНИЕ В СТЕКЕ ЗНАЧЕНИЙ В ВЫБРАННОМ ДИАПАЗОНЕ
