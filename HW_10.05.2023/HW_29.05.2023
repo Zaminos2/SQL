@@ -1,0 +1,21 @@
+USE hr;
+SELECT  department_name
+	FROM `departments`
+		WHERE manager_id IS NULL;
+
+SELECT DISTINCT `department_name`
+	FROM `departments`
+    JOIN `employees` ON departments.department_id = employees.department_id
+		WHERE `salary` > 10000;
+        
+SELECT DISTINCT `first_name`,`last_name`,`department_name`,`job_title`
+	FROM `departments`
+    JOIN `employees`ON departments.department_id = employees.department_id
+    JOIN `jobs` ON employees.job_id = jobs.job_id;
+    
+    SELECT DISTINCT `first_name`,`last_name`,`salary`
+    FROM `employees`
+	JOIN `departments`ON departments.department_id = employees.department_id
+	JOIN `locations`ON departments.location_id = locations.location_id
+    WHERE city IN ('Oxford','San Francisco')
+
