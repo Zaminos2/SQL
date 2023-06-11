@@ -1,0 +1,139 @@
+USE lern;
+CREATE TABLE students(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR (128) NOT NULL,
+    age INT
+);
+
+CREATE TABLE teachers(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR (128) NOT NULL,
+    age INT
+);
+
+CREATE TABLE Competencies(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR (128) NOT NULL
+);
+
+CREATE TABLE Teachers2Competencies(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    competencies_id  INT
+);
+
+CREATE TABLE Courses(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    teacher_id INT,
+    title VARCHAR (128) NOT NULL,
+    headman_id int
+);
+
+CREATE TABLE Students2Courses(
+	id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id  INT,
+    course_id  int
+);
+
+INSERT INTO students(name,age)
+VALUES('Анатолий', 29)
+,('Олег', 25)
+,('Семен', 27)
+,('Олеся', 28)
+,('Ольга', 31)
+,('Иван', 22);
+
+INSERT INTO teachers(name,age)
+VALUES('Петр', 39)
+,('Максим', 35)
+,('Антон', 37)
+,('Всеволод', 38)
+,('Егор', 41)
+,('Светлана', 32);
+
+INSERT INTO competencies(title)
+VALUES('Математика')
+,('Информатика')
+,('Программирование')
+,('Графика');
+
+INSERT INTO Teachers2Competencies(teacher_id,competencies_id)
+VALUES(1, 1)
+,(2, 1)
+,(2, 3)
+,(3, 2)
+,(4, 1)
+,(5, 3);
+
+INSERT INTO Courses(teacher_id,title,headman_id)
+VALUES(1,'Алгебра логики',2)
+,(2,'Математическая статистика',3)
+,(4,'Высшая математика',5)
+,(5,'Javascript',1)
+,(5,'Базовый Python',1);
+
+INSERT INTO Students2Courses(student_id,course_id)
+VALUES(1, 1)
+,(2, 1)
+,(3, 2)
+,(3, 3)
+,(4, 5);
+
+SELECT
+st.name,
+cor.title
+FROM students st
+INNER JOIN students2courses sc ON st.id = sc.student_id
+INNER JOIN courses cor ON cor.id = sc.course_id;
+
+SELECT
+tch.name,
+comp.title
+FROM teachers tch
+INNER JOIN teachers2competencies tc ON tch.id = teacher_id
+INNER JOIN competencies comp ON comp.id = tc.competencies_id;
+
+SELECT
+tch.name
+FROM teachers tch
+LEFT JOIN teachers2competencies tc ON tch.id = teacher_id
+LEft JOIN competencies comp ON comp.id = tc.competencies_id
+WHERE competencies_id IS NULL;
+
+SELECT
+st.name
+FROM students st
+LEFT JOIN students2courses sc ON st.id = sc.student_id
+LEFT JOIN courses cor ON cor.id = sc.course_id
+WHERE course_id IS NULL;
+
+SELECT
+cor.title
+FROM courses cor
+LEFT JOIN students2courses stCor ON stCor.course_id = cor.id
+LEFT JOIN students st ON st.id = stCor.student_id
+WHERE student_id IS NULL;
+
+SELECT
+com.title
+FROM competencies com
+LEFT JOIN teachers2competencies tchCom ON tchCom.competencies_id = com.id
+LEFT JOIN teachers tch ON tch.id = tchCom.teacher_id
+WHERE teacher_id IS NULL;
+
+SELECT DISTINCT
+st.name,
+cor.title
+FROM courses cor
+LEFT JOIN students2courses stCor ON stCor.course_id = cor.id
+LEFT JOIN students st ON cor.headman_id = st.id;
+
+SELECT
+st.name,
+st2.name
+FROM students st
+
+LEFT JOIN students2courses stCor ON stCor.student_id = st.id
+LEFT JOIN courses cor ON cor.id = stCor.course_id
+LEFT JOIN students st2 ON st2.id =  cor.headman_id;
+
