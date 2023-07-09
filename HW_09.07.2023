@@ -1,0 +1,39 @@
+SELECT
+t1.name,
+t1.lastname
+FROM customers t1
+LEFT JOIN orders t2 on t1.id = t2.customerid
+WHERE ordertype is NULL;
+
+SELECT
+t1.title
+FROM products t1
+left JOIN orders t2 ON t1.id = t2.productid
+WHERE t2.productid is NULL;
+
+SELECT
+*
+FROM products t1
+left JOIN orders t2 ON t1.id = t2.productid
+where ordertype = "online";
+
+SELECT
+ *
+FROM products t1
+LEFT JOIN orders t2 ON t1.id = t2.productid
+WHERE t2.ordertype <> 'online' ;
+
+SELECT
+ c.name,
+ c.lastname
+FROM customers c
+JOIN orders o ON c.id = o.customerid
+JOIN products p ON o.productid = p.id
+WHERE (o.product_count * p.price) = (
+  SELECT MAX(o2.product_count * p2.price)
+  FROM orders o2
+  JOIN products p2 ON o2.productid = p2.id
+);
+
+
+
